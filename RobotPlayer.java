@@ -83,15 +83,24 @@ public class RobotPlayer {
 					if (rc.isCoreReady()) {
 						if(MFNum == 0){
 							if(rc.getTeamOre() >= RobotType.MINERFACTORY.oreCost && rc.canBuild(directions[5], RobotType.MINERFACTORY)){
-								tryBuild(directions[0], RobotType.MINERFACTORY);
-								MFNum++;
+								
+								if(rc.getLocation().x%2 == 0 && rc.getLocation().y!=0 || rc.getLocation().y%2 == 0 && rc.getLocation().x!=0){
+									for(int i = 0; i < 7; i += 2){
+										if(rc.canMove(directions[i])){
+											rc.build(directions[i], RobotType.MINERFACTORY);
+											MFNum++;
+										}
+									}
+								}				
 							}
 						}else if(MFNum > 0 && HeliNum <= 2){
 							if(rc.getTeamOre() >= RobotType.HELIPAD.oreCost && rc.canBuild(directions[7], RobotType.MINERFACTORY)){
 								tryBuild(directions[HeliNum*2 + 2], RobotType.HELIPAD);
 								HeliNum++;
 							}
-						}
+						}else if (HeliNum == 2 && SupplyNum == 0)
+							
+							
 						rc.yield();
 					}
 				} catch (Exception e) {

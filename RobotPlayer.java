@@ -83,8 +83,8 @@ public class RobotPlayer {
 					if (rc.isCoreReady()) {
 						if(MFNum == 0){
 							if(rc.getTeamOre() >= RobotType.MINERFACTORY.oreCost && rc.canBuild(directions[5], RobotType.MINERFACTORY)){
-								
-								if(rc.getLocation().x%2 == 0 && rc.getLocation().y!=0 || rc.getLocation().y%2 == 0 && rc.getLocation().x!=0){
+
+								if(rc.getLocation().x%2 == 0 && rc.getLocation().y%2!=0 || rc.getLocation().y%2 == 0 && rc.getLocation().x%2!=0){
 									for(int i = 0; i < 7; i += 2){
 										if(rc.canMove(directions[i])){
 											rc.build(directions[i], RobotType.MINERFACTORY);
@@ -94,14 +94,27 @@ public class RobotPlayer {
 								}				
 							}
 						}else if(MFNum > 0 && HeliNum <= 2){
-							if(rc.getTeamOre() >= RobotType.HELIPAD.oreCost && rc.canBuild(directions[7], RobotType.MINERFACTORY)){
-								tryBuild(directions[HeliNum*2 + 2], RobotType.HELIPAD);
-								HeliNum++;
+							if(rc.getLocation().x%2 == 0 && rc.getLocation().y%2!=0 || rc.getLocation().y%2 == 0 && rc.getLocation().x%2!=0){
+								for(int i = 0; i < 7; i += 2){
+									if(rc.canMove(directions[i])){
+										rc.build(directions[i], RobotType.HELIPAD);
+										HeliNum++;	
+									}
+								}
 							}
-						}else if (HeliNum == 2 && SupplyNum == 0)
-							
-							
-						rc.yield();
+						}else if (HeliNum == 2 && SupplyNum == 0){
+							if(rc.getLocation().x%2 == 0 && rc.getLocation().y%2!=0 || rc.getLocation().y%2 == 0 && rc.getLocation().x%2!=0){
+								for(int i = 0; i < 7; i += 2){
+									if(rc.canMove(directions[i])){
+										rc.build(directions[i], RobotType.SUPPLYDEPOT);
+										SupplyNum++;
+									}
+								}
+							}
+						}
+
+
+							rc.yield();
 					}
 				} catch (Exception e) {
 					System.out.println("Beaver Exception");
